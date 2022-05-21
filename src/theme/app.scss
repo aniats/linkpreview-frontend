@@ -1,0 +1,28 @@
+// Import the typography styles.
+//
+// MDC Typography
+//
+@use '@material/typography/mdc-typography';
+@use '@material/image-list/index' as image-list;
+
+html,
+body {
+	padding: 0;
+	margin: 0;
+}
+
+.container {
+	padding: 30px;
+}
+
+.my-image-list-masonry {
+	@include image-list.masonry-columns(5);
+	@include image-list.shape-radius(10px);
+	max-width: 680px;
+}
+
+@media (max-width: 599px) {
+	.my-image-list-masonry {
+		@include image-list.masonry-columns(3);
+	}
+}
