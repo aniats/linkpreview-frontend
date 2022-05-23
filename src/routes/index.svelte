@@ -4,21 +4,36 @@
 	import Fab from '@smui/fab';
 	import { Icon as IconCommon } from '@smui/common';
 	import LayoutGrid, { Cell } from '@smui/layout-grid';
-	import ImageList, {
-		Item,
-		ImageAspectContainer,
-		Image,
-		Supporting,
-		Label as LabelImageList
-	} from '@smui/image-list';
+	import Hidden from './hidden.svelte';
+
 	let value = '';
+	let parsedData;
+	let shown;
+	let show;
 
 	async function doSearch() {
 		console.log('1');
 		const response = await fetch('http://localhost:8080/url/parse-url?url=' + value);
 		const data = await response.json();
 		console.log('2');
-		alert('Search for ' + JSON.stringify(data));
+		parsedData = JSON.stringify(data);
+	}
+
+	async function getZip() {
+		console.log('3');
+		const response = await fetch('http://localhost:8080/url/zip?url=' + value);
+		let blob = await response.blob();
+		var url = window.URL || window.webkitURL;
+		let link = url.createObjectURL(blob);
+
+		// generate anchor tag, click it for download and then remove it again
+		let a = document.createElement('a');
+		a.setAttribute('download', `image.zip`);
+		a.setAttribute('href', link);
+		document.body.appendChild(a);
+		a.click();
+		document.body.removeChild(a);
+		console.log('4');
 	}
 
 	async function handleKeyDown(event: CustomEvent | KeyboardEvent) {
@@ -27,16 +42,6 @@
 			await doSearch();
 		}
 	}
-
-	function getUnevenImageSize(
-		counter: number,
-		base: number,
-		variance: number,
-		preAdd = (num: number) => num
-	) {
-		const mid = (counter % 2 ? Math.cos : Math.sin)(counter) * variance;
-		return base + Math.floor(preAdd(mid));
-	}
 </script>
 
 <div class="solo-demo-container solo-container">
@@ -44,13 +49,21 @@
 		<IconCommon class="material-icons">search</IconCommon>
 		<Input bind:value on:keydown={handleKeyDown} placeholder="Search" class="solo-input" />
 	</Paper>
-	<Fab on:click={doSearch} disabled={value === ''} color="primary" mini class="solo-fab">
+	<Fab
+		on:click={doSearch}
+		on:click={show}
+		disabled={value === ''}
+		color="primary"
+		mini
+		class="solo-fab"
+	>
 		<IconCommon class="material-icons">arrow_forward</IconCommon>
 	</Fab>
 </div>
 
-<pre class="status">Value: {value}</pre>
+<button on:click={getZip}>get Zip</button>
 
+<!-- 
 <ImageList class="my-image-list-masonry" masonry>
 	{#each Array(15) as _unused, i}
 		<Item>
@@ -68,7 +81,15 @@
 			</Supporting>
 		</Item>
 	{/each}
-</ImageList>
+</ImageList> -->
+
+<Hidden bind:shown bind:show>
+	<p>{parsedData}</p>
+</Hidden>
+
+{#if shown}
+	<div><p>{parsedData}</p></div>
+{/if}
 
 <style>
 	.solo-demo-container {
