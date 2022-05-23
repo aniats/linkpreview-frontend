@@ -3,6 +3,7 @@
 	import { Input } from '@smui/textfield';
 	import Fab from '@smui/fab';
 	import { Icon as IconCommon } from '@smui/common';
+	import Card from '@smui/card';
 	import LayoutGrid, { Cell } from '@smui/layout-grid';
 	import Hidden from './hidden.svelte';
 
@@ -16,7 +17,7 @@
 		const response = await fetch('http://localhost:8080/url/parse-url?url=' + value);
 		const data = await response.json();
 		console.log('2');
-		parsedData = JSON.stringify(data);
+		parsedData = JSON.stringify(data, null, 4);
 	}
 
 	async function getZip() {
@@ -84,13 +85,16 @@
 </ImageList> -->
 
 <Hidden bind:shown bind:show>
-	<p>{parsedData}</p>
+	<div class="card-display">
+		<div class="card-container">
+			<Card variant="outlined" padded><p>{parsedData}</p></Card>
+		</div>
+	</div>
 </Hidden>
 
-{#if shown}
+<!-- {#if shown}
 	<div><p>{parsedData}</p></div>
-{/if}
-
+{/if} -->
 <style>
 	.solo-demo-container {
 		padding: 36px 18px;

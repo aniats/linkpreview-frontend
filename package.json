@@ -20,6 +20,7 @@
 		"@mdi/js": "^6.6.96",
 		"@smui/banner": "^6.0.0-beta.16",
 		"@smui/button": "^6.0.0-beta.16",
+		"@smui/card": "^6.0.0-beta.16",
 		"@smui/fab": "^6.0.0-beta.16",
 		"@smui/icon-button": "^6.0.0-beta.16",
 		"@smui/image-list": "^6.0.0-beta.16",
