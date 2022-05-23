@@ -4,6 +4,8 @@
 	import Fab from '@smui/fab';
 	import { Icon as IconCommon } from '@smui/common';
 	import Card from '@smui/card';
+	import Button, { Label } from '@smui/button';
+
 	import LayoutGrid, { Cell } from '@smui/layout-grid';
 	import Hidden from './hidden.svelte';
 
@@ -62,39 +64,51 @@
 	</Fab>
 </div>
 
-<button on:click={getZip}>get Zip</button>
-
-<!-- 
-<ImageList class="my-image-list-masonry" masonry>
-	{#each Array(15) as _unused, i}
-		<Item>
-			<Image
-				src="https://place-hold.it/190x{getUnevenImageSize(
-					i,
-					107,
-					200,
-					Math.abs
-				)}?text=190x{getUnevenImageSize(i, 107, 200, Math.abs)}&fontsize=23"
-				alt="Image {i + 1}"
-			/>
-			<Supporting>
-				<LabelImageList>Image {i + 1}</LabelImageList>
-			</Supporting>
-		</Item>
-	{/each}
-</ImageList> -->
+<LayoutGrid>
+	<Cell span={12}>
+		<div class="demo-cell" />
+	</Cell>
+</LayoutGrid>
 
 <Hidden bind:shown bind:show>
-	<div class="card-display">
-		<div class="card-container">
-			<Card variant="outlined" padded><p>{parsedData}</p></Card>
-		</div>
-	</div>
+	<LayoutGrid>
+		<Cell span={2}>
+			<div class="demo-cell" />
+		</Cell>
+		<Cell span={8}>
+			<div class="card-display">
+				<div class="card-container">
+					<Card variant="outlined" padded><p>{parsedData}</p></Card>
+				</div>
+			</div>
+		</Cell>
+		<Cell span={2}>
+			<div class="demo-cell" />
+		</Cell>
+
+		<Cell span={2}>
+			<div class="demo-cell" />
+		</Cell>
+		<Cell span={8}>
+			<div class="card-display">
+				<div class="card-container">
+					<Button
+						on:click={() => {
+							getZip;
+						}}
+						variant="raised"
+					>
+						<Label>Get Zip</Label>
+					</Button>
+				</div>
+			</div>
+		</Cell>
+		<Cell span={2}>
+			<div class="demo-cell" />
+		</Cell>
+	</LayoutGrid>
 </Hidden>
 
-<!-- {#if shown}
-	<div><p>{parsedData}</p></div>
-{/if} -->
 <style>
 	.solo-demo-container {
 		padding: 36px 18px;
